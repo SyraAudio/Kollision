@@ -1,0 +1,21 @@
+
+{
+    "CmajorVersion":    1,
+    "ID":               "de.syra.kollision.Sawtooth",
+    "version":          "1.0",
+    "name":             "Sawtooth",
+    "description":      "Sawtooth",
+    "category":         "generator",
+    "manufacturer":     "Syra Audio",
+    "isInstrument":     true,
+
+    "source":           [
+        "Sawtooth.cmajor",
+        "Oscillators/Sawtooth.cmajor",
+        "Waveshapers/Basic.cmajor",
+        "Waveshapers/Tanh.cmajor",
+        "Waveshapers/Exp.cmajor",
+        "Utils/sign.cmajor",
+        "Dynamics/Limiter.cmajor"
+    ]
+}

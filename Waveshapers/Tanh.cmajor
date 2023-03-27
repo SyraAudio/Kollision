@@ -1,0 +1,27 @@
+namespace Kollision::Waveshaper
+{
+    processor Tanh
+    {
+        input stream float in;
+        output stream float out;
+
+        input event float clipThresholdIn;
+
+        float clip_threshold = 0.0f;
+
+        event clipThresholdIn(float e)
+        {
+            clip_threshold = e;
+        }
+
+        void main()
+        {
+            loop
+            {
+                out <- tanh(in * clip_threshold) / tanh(clip_threshold);
+
+                advance();
+            }
+        }
+    }
+}

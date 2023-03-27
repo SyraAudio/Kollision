@@ -1,0 +1,31 @@
+namespace Kollision::Dynamics
+{
+    processor Limiter(float threshold = 0.95f, float attack_time = 0.4f, float release_time = 50.0f)
+    {
+        input stream float in;
+        output stream float out;
+
+        float attack_coeff = 1.0f - exp(-1.0f / float (processor.frequency) / attack_time);
+        float release_coeff = 1.0f - exp(-1.0f / float (processor.frequency) / release_time);
+
+        float gain = 1.0f;
+
+        void main()
+        {
+            loop
+            {
+                float amp = abs(in);
+
+                if (amp > threshold) {
+                    gain = gain * (1.0f - attack_coeff) + attack_coeff * (threshold / amp);
+                } else {
+                    gain = gain * (1.0f - release_coeff);
+                }
+
+                out <- in * gain;
+
+                advance();
+            }
+        }
+    }
+}

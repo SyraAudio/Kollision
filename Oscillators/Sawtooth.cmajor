@@ -1,0 +1,53 @@
+namespace Kollision
+{
+    namespace Osc
+    {
+        processor Sawtooth(float frequencyIn = 440.0f)
+        {
+            // input event float frequencyIn; // This represents the pitch
+            output stream float out;
+
+            std::random::RNG rng = std::random::RNG();
+
+            float detune_amount = rng.getFloat(10.0f);
+
+            float detune_frequency()
+            {
+                return frequencyIn + rng.getBipolar() * detune_amount;
+            }
+
+            float phase_increment(float frequency)
+            {
+                return frequency / float (processor.frequency);
+            }
+
+            float sawtooth(float phase)
+            {
+                return 2.0f * (phase - floor(0.5f + phase));
+            }
+
+            void main()
+            {
+                float current_phase = 0.0f;
+
+                loop
+                {
+                    let detuned_freq = detune_frequency();
+
+                    let saw = sawtooth(current_phase);
+
+                    out <- saw;
+
+                    current_phase += phase_increment(detuned_freq);
+
+                    if (current_phase >= 1) {
+                        current_phase -= 1;
+                        detune_amount = rng.getFloat(10.0f);
+                    }
+
+                    advance();
+                }
+            }
+        }
+    }
+}

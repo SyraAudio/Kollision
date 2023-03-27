@@ -1,0 +1,27 @@
+namespace Kollision::Waveshaper
+{
+    processor Exp
+    {
+        input stream float in;
+        output stream float out;
+
+        input event float clipThresholdIn;
+
+        float clip_threshold = 0.05f;
+
+        event clipThresholdIn(float e)
+        {
+            clip_threshold = e;
+        }
+
+        void main()
+        {
+            loop
+            {
+                out <- Kollision::Utils::sign(in) * abs(in) ** clip_threshold;
+
+                advance();
+            }
+        }
+    }
+}
